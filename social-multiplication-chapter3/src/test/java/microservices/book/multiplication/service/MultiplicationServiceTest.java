@@ -1,6 +1,8 @@
 package microservices.book.multiplication.service;
 
 import microservices.book.multiplication.domain.Multiplication;
+import microservices.book.multiplication.domain.MultiplicationResultAttempt;
+import microservices.book.multiplication.domain.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,13 +23,15 @@ public class MultiplicationServiceTest {
     public void createRandomMultiplicationTest() {
         //given
         given(randomGeneratorService.generateRandomFactor()).willReturn(50, 30);
+        User user = new User("john_doe");
 
         //when
         Multiplication multiplication = multiplicationService.createRandomMultiplication();
+        MultiplicationResultAttempt attempt = new MultiplicationResultAttempt(user, multiplication, 1500);
 
         //then
         assertThat(multiplication.getFactorA()).isEqualTo(50);
         assertThat(multiplication.getFactorB()).isEqualTo(30);
-        assertThat(multiplication.getResult()).isEqualTo(1500);
+        assertThat(attempt.getResultAttempt()).isEqualTo(1500);
     }
 }
