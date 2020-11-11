@@ -9,6 +9,23 @@ function updateMultiplication() {
     });
 }
 
+function updateStats(alias) {
+    $.ajax({
+        url: "http://localhost:8080/results?alias=" + alias,
+    }).then((data) => {
+        $('#stats-body').empty();
+        data.forEach((row) => {
+            $('#stats-body').append('<tr><td>' + row.id + '</td>' +
+                '<td>' + row.multiplication.factorA + ' x ' +
+                row.multiplication.factorB + '</td>' +
+                '<td>' + row.resultAttempt + '</td>' +
+                '<td>' + (row.correct === true ? 'YES' : 'NO') +
+                '</td></tr>'
+            );
+        });
+    });
+}
+
 $(document).ready(() => {
     updateMultiplication();
 
@@ -18,7 +35,8 @@ $(document).ready(() => {
 
         var a = $('.multiplication-a').text();
         var b = $('.multiplication-b').text();
-        var $form = $(this),
+        //var $form = $(this),
+        var $form = $("#attempt-form"),
             attempt = $form.find("input[name='result-attempt']").val(),
             userAlias = $form.find("input[name='user-alias']").val();
         var data = {
@@ -49,5 +67,6 @@ $(document).ready(() => {
         });
 
         updateMultiplication();
+        updateStats(userAlias);
     });
 });
