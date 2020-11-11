@@ -27,7 +27,7 @@ public class MultiplicationServiceTest {
 
         //when
         Multiplication multiplication = multiplicationService.createRandomMultiplication();
-        MultiplicationResultAttempt attempt = new MultiplicationResultAttempt(user, multiplication, 1500);
+        MultiplicationResultAttempt attempt = new MultiplicationResultAttempt(user, multiplication, 1500, false);
 
         //then
         assertThat(multiplication.getFactorA()).isEqualTo(50);
