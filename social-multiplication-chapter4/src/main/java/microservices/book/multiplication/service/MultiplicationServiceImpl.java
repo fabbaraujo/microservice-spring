@@ -79,5 +79,10 @@ public class MultiplicationServiceImpl implements MultiplicationService {
         return multiplicationResultAttemptRepository.findTop5ByUserAliasOrderByIdDesc(userAlias);
     }
 
+    @Override
+    public Optional<MultiplicationResultAttempt> getResultById(Long resultId) {
+        return multiplicationResultAttemptRepository.findById(resultId);
+    }
+
 
 }

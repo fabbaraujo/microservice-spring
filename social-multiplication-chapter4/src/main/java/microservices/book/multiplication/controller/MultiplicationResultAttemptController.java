@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/results")
@@ -41,5 +42,10 @@ public final class MultiplicationResultAttemptController {
     @GetMapping
     public ResponseEntity<List<MultiplicationResultAttempt>> getStatistics(@RequestParam("alias") String alias) {
         return ResponseEntity.ok(multiplicationService.getStatsForUser(alias));
+    }
+
+    @GetMapping("/{resultId}")
+    public ResponseEntity<MultiplicationResultAttempt> getResultById(final @PathVariable("resultId") Long resultId) {
+        return ResponseEntity.ok(Objects.requireNonNull(multiplicationService.getResultById(resultId).orElse(null)));
     }
 }

@@ -20,6 +20,7 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -98,5 +99,23 @@ public class MultiplicationResultAttemptControllerTest {
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
         assertThat(response.getContentAsString()).isEqualTo(
                 jsonResultAttemptList.write(recentAttempts).getJson());
+    }
+
+    @Test
+    public void getResultByIdTest() throws Exception {
+        //given
+        User user = new User("john_doe");
+        Multiplication multiplication = new Multiplication(50, 70);
+        MultiplicationResultAttempt attempt = new MultiplicationResultAttempt(user, multiplication, 3500, true);
+        given(multiplicationService.getResultById(4L)).willReturn(Optional.of(attempt));
+
+        //when
+        MockHttpServletResponse response = mvc.perform(
+                get("/results/4")
+        ).andReturn().getResponse();
+
+        //then
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+        assertThat(response.getContentAsString()).isEqualTo(jsonResultAttempt.write(attempt).getJson());
     }
 }
